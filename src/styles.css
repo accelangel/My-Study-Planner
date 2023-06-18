@@ -1,0 +1,15 @@
+* {
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+    border: 1px solid limegreen;
+}
+
+body {
+    height: 100vh;
+    background-color: wheat;
+}
+
+.container {
+    display: grid;
+}
