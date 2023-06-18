@@ -2,14 +2,41 @@
     padding: 0;
     margin: 0;
     box-sizing: border-box;
-    border: 1px solid limegreen;
+    .border: 1px solid limegreen;
 }
 
 body {
     height: 100vh;
-    background-color: wheat;
+    background-color: #ffffff;
 }
 
 .container {
+    height: 100%;
     display: grid;
+    grid-template-rows: 1fr 15fr;
+    grid-template-areas: 
+        'header'
+        'main';
+}
+
+.header {
+    grid-area: header;
+    background-color: #db5244;
+}
+
+.main {
+    grid-area: main;
+    height: 100%;
+    display: grid;
+    grid-template-columns: 1fr 4fr;
+    grid-template-areas: 
+        'sidebar workspace';
+}
+
+.sidebar {
+    grid-area: sidebar;
+}
+
+.workspace {
+    grid-area: workspace;
 }
