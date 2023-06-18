@@ -10,9 +10,13 @@ const initialize = function () {
     let main = document.createElement('div');
     main.id = 'main'; main.classList.add('main');
 
+    let sidebar = document.createElement('div');
+    sidebar.id = 'sidebar'; sidebar.classList.add('sidebar');
 
+    let workspace = document.createElement('div');
+    workspace.id = 'workspace'; workspace.classList.add('workspace');
 
-
+    main.append(sidebar, workspace);
     container.append(header, main);
     document.body.append(container);
 };

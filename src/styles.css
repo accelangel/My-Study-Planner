@@ -12,14 +12,12 @@ body {
 
 .container {
     height: 100%;
-    display: grid;
-    grid-template-rows: 1fr 15fr;
-    grid-template-areas: 
-        'header'
-        'main';
+    display: flex;
+    flex-direction: column;
 }
 
 .header {
+    height: 46px;
     grid-area: header;
     background-color: #db5244;
 }
@@ -35,6 +33,7 @@ body {
 
 .sidebar {
     grid-area: sidebar;
+    background-color: #fafafa;
 }
 
 .workspace {
