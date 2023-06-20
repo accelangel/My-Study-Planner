@@ -2,6 +2,7 @@
     padding: 0;
     margin: 0;
     box-sizing: border-box;
+    font-family: sans-serif;
     .border: 1px solid limegreen;
 }
 
@@ -26,7 +27,7 @@ body {
     grid-area: main;
     height: 100%;
     display: grid;
-    grid-template-columns: 1fr 4fr;
+    grid-template-columns: 1fr 4.75fr;
     grid-template-areas: 
         'sidebar workspace';
 }
@@ -38,4 +39,57 @@ body {
 
 .workspace {
     grid-area: workspace;
+    padding: 2.25em 20.5em;
+    display: flex;
+    flex-direction: column;
+}
+
+.workspaceHeader {
+    display: flex;
+    align-items: flex-end;
+    gap: 0.4em;
+    margin-bottom: 1.5em;
+}
+
+.today {
+    font-weight: bold;
+    font-size: 20px;
+    position: relative;
+    top: 2px;
+}
+
+.date {
+    color: #a2a3a5;
+    font-size: 12px;
+}
+
+.newTaskDiv {
+    display: flex;
+    gap: 0.7em;
+    user-select: none;
+}
+
+.newTaskIconDiv {
+    height: 16px;
+    width: 16px;
+    border-radius: 50%;
+}
+
+.newTaskIcon {
+    height: 100%;
+    scale: 135%;
+}
+
+.addTask {
+    align-self: center;
+    color: #817d8c;
+    font-size: 14px;
+}
+
+.newTaskDiv:hover .addTask {
+    color: #db4c3d;
+}
+
+.newTaskDiv:hover {
+    cursor: pointer;
 }
