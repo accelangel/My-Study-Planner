@@ -1,4 +1,5 @@
 import { newTaskOrder } from './index.js';
+
 import addTaskRed from './icons/addTaskRed.svg'
 import addTaskWhite from './icons/addTaskWhite.svg'
 
@@ -28,6 +29,16 @@ const initialize = function () {
     date.id = 'date'; date.classList.add('date');
     date.textContent = new Date().toString().split(' ').slice(0, 3).join(' ');
 
+    let newTaskDiv = createAddTask();
+
+    workspaceHeader.append(today, date);
+    workspace.append(workspaceHeader, newTaskDiv);
+    main.append(sidebar, workspace);
+    container.append(header, main);
+    document.body.append(container);
+};
+
+function createAddTask() {
     let newTaskDiv = document.createElement('div');
     newTaskDiv.id = 'newTaskDiv'; newTaskDiv.classList.add('newTaskDiv');
 
@@ -38,28 +49,39 @@ const initialize = function () {
     newTaskIcon.classList.add('newTaskIcon');
     newTaskIcon.src = addTaskRed;
 
-    newTaskDiv.addEventListener('mouseenter', function () {
+    function mouseenter() {
         newTaskIcon.src = addTaskWhite;
-        newTaskDiv.addEventListener('mouseleave', function () {
-            newTaskIcon.src = addTaskRed;
-        })
-    });
+        console.log('enter');
+    }
 
-    newTaskDiv.addEventListener('click', function () {
+    function mouseleave() {
+        newTaskIcon.src = addTaskRed;
+        console.log('leave');
+    }
+
+    newTaskDiv.addEventListener('mouseenter', mouseenter);
+    newTaskDiv.addEventListener('mouseleave', mouseleave);
+
+    function newTask() {
         newTaskOrder();
-    });
+        newTaskDiv.removeEventListener('mouseenter', mouseenter);
+        newTaskDiv.removeEventListener('mouseleave', mouseleave);
+        newTaskDiv.removeEventListener('click', newTask);
+    }
+
+    newTaskDiv.addEventListener('click', newTask);
 
     let addTask = document.createElement('div');
     addTask.id = 'addTask'; addTask.classList.add('addTask');
     addTask.textContent = 'Add task'
 
-    workspaceHeader.append(today, date);
+
+
     newTaskIconDiv.append(newTaskIcon);
     newTaskDiv.append(newTaskIconDiv, addTask);
-    workspace.append(workspaceHeader, newTaskDiv);
-    main.append(sidebar, workspace);
-    container.append(header, main);
-    document.body.append(container);
-};
 
-export { initialize };
+    return newTaskDiv;
+}
+
+
+export { initialize, createAddTask };
