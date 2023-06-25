@@ -1,6 +1,8 @@
 import './styles.css'
-import { initialize, createAddTask } from './initialize.js'
-import { populateForm } from './domBuilds'
+
+import { initialize } from './initialize.js'
+import { populateForm, createAddTask } from './domBuilds'
+
 import prioflagWhite from './icons/prioflag.svg'
 import addTaskRed from './icons/addTaskRed.svg'
 import addTaskWhite from './icons/addTaskWhite.svg'
@@ -20,14 +22,7 @@ function newTaskOrder() {
 
     newTaskDiv.append(newTaskForm);
     populateForm();
-
-
-
-
-
 }
-
-
 
 function cancelNewTask() {
     let oldNewTaskDiv = document.getElementById('newTaskDiv');
@@ -38,6 +33,6 @@ function cancelNewTask() {
     workspace.append(newTaskDiv);
 }
 
-    
+
 
 export { newTaskOrder, cancelNewTask }

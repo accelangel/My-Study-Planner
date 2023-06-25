@@ -1,4 +1,8 @@
-import { cancelNewTask } from './index.js';
+import { newTaskOrder, cancelNewTask } from './index.js';
+import { createTask } from './taskLogic.js';
+
+import addTaskRed from './icons/addTaskRed.svg'
+import addTaskWhite from './icons/addTaskWhite.svg'
 
 function populateForm() {
     let form = document.getElementById('newTaskForm');
@@ -37,13 +41,18 @@ function populateForm() {
 
 
     let dateInput = document.createElement('input');
-    dateInput.classList.add('dateInput'); dateInput.type = 'date';
-    dateInput.placeholder = 'Today';
+    dateInput.id = 'dateInput'; dateInput.classList.add('dateInput'); 
+    dateInput.type = 'date'; dateInput.placeholder = 'Today';
 
 
     let projectList = document.createElement('select');
     projectList.id = 'projectList'; projectList.classList.add('projectList');
     let toDoList = document.createElement('option'); toDoList.selected = true; toDoList.textContent = 'Daily To Do';
+    //temp for testing
+    let homework = document.createElement('option'); homework.textContent = 'Homework';
+    let chores = document.createElement('option'); chores.textContent = 'Chores';
+    let health = document.createElement('option'); health.textContent = 'Exercise';
+    let fish = document.createElement('option'); fish.textContent = 'Feed fish';
 
 
     let taskSubmitDiv = document.createElement('div');
@@ -52,6 +61,7 @@ function populateForm() {
     let submitTask = document.createElement('button');
     submitTask.id = 'submitTask'; submitTask.classList.add('submitTask'); submitTask.textContent = 'Add task';
 
+    submitTask.addEventListener('click', createTask);
 
     let cancel = document.createElement('button');
     cancel.id = 'cancel'; cancel.classList.add('cancel'); cancel.textContent = 'cancel';
@@ -59,7 +69,7 @@ function populateForm() {
     cancel.addEventListener('click', cancelNewTask);
 
     taskSubmitDiv.append(cancel, submitTask);
-    projectList.append(toDoList);
+    projectList.append(toDoList, homework, chores, health, fish);
     prioritySelect.append(placeholderOption, option1, option2, option3, option4)
     taskOptionDiv.append(dateInput, prioritySelect, projectList);
     form.append(taskNameInput, taskDescriptionInput, taskOptionDiv, taskSubmitDiv);
@@ -67,4 +77,47 @@ function populateForm() {
     taskNameInput.focus();
 }
 
-export { populateForm }
+function createAddTask() {
+    let newTaskDiv = document.createElement('div');
+    newTaskDiv.id = 'newTaskDiv'; newTaskDiv.classList.add('newTaskDiv');
+
+    let newTaskIconDiv = document.createElement('div');
+    newTaskIconDiv.id = 'newTaskIconDiv'; newTaskIconDiv.classList.add('newTaskIconDiv');
+
+    let newTaskIcon = document.createElement('img');
+    newTaskIcon.classList.add('newTaskIcon');
+    newTaskIcon.src = addTaskRed;
+
+    function mouseenter() {
+        newTaskIcon.src = addTaskWhite;
+        console.log('enter');
+    }
+
+    function mouseleave() {
+        newTaskIcon.src = addTaskRed;
+        console.log('leave');
+    }
+
+    newTaskDiv.addEventListener('mouseenter', mouseenter);
+    newTaskDiv.addEventListener('mouseleave', mouseleave);
+
+    function newTask() {
+        newTaskOrder();
+        newTaskDiv.removeEventListener('mouseenter', mouseenter);
+        newTaskDiv.removeEventListener('mouseleave', mouseleave);
+        newTaskDiv.removeEventListener('click', newTask);
+    }
+
+    newTaskDiv.addEventListener('click', newTask);
+
+    let addTask = document.createElement('div');
+    addTask.id = 'addTask'; addTask.classList.add('addTask');
+    addTask.textContent = 'Add task'
+
+    newTaskIconDiv.append(newTaskIcon);
+    newTaskDiv.append(newTaskIconDiv, addTask);
+    
+    return newTaskDiv;
+}
+
+export { populateForm, createAddTask }

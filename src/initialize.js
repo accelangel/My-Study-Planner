@@ -1,7 +1,5 @@
-import { newTaskOrder } from './index.js';
-
-import addTaskRed from './icons/addTaskRed.svg'
-import addTaskWhite from './icons/addTaskWhite.svg'
+//import { newTaskOrder } from './index.js';
+import { createAddTask } from './domBuilds.js';
 
 const initialize = function () {
     let container = document.createElement('div');
@@ -38,50 +36,4 @@ const initialize = function () {
     document.body.append(container);
 };
 
-function createAddTask() {
-    let newTaskDiv = document.createElement('div');
-    newTaskDiv.id = 'newTaskDiv'; newTaskDiv.classList.add('newTaskDiv');
-
-    let newTaskIconDiv = document.createElement('div');
-    newTaskIconDiv.id = 'newTaskIconDiv'; newTaskIconDiv.classList.add('newTaskIconDiv');
-
-    let newTaskIcon = document.createElement('img');
-    newTaskIcon.classList.add('newTaskIcon');
-    newTaskIcon.src = addTaskRed;
-
-    function mouseenter() {
-        newTaskIcon.src = addTaskWhite;
-        console.log('enter');
-    }
-
-    function mouseleave() {
-        newTaskIcon.src = addTaskRed;
-        console.log('leave');
-    }
-
-    newTaskDiv.addEventListener('mouseenter', mouseenter);
-    newTaskDiv.addEventListener('mouseleave', mouseleave);
-
-    function newTask() {
-        newTaskOrder();
-        newTaskDiv.removeEventListener('mouseenter', mouseenter);
-        newTaskDiv.removeEventListener('mouseleave', mouseleave);
-        newTaskDiv.removeEventListener('click', newTask);
-    }
-
-    newTaskDiv.addEventListener('click', newTask);
-
-    let addTask = document.createElement('div');
-    addTask.id = 'addTask'; addTask.classList.add('addTask');
-    addTask.textContent = 'Add task'
-
-
-
-    newTaskIconDiv.append(newTaskIcon);
-    newTaskDiv.append(newTaskIconDiv, addTask);
-
-    return newTaskDiv;
-}
-
-
-export { initialize, createAddTask };
+export { initialize };
