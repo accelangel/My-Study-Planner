@@ -70,12 +70,12 @@ function populateForm() {
 
     taskSubmitDiv.append(cancel, submitTask);
     projectList.append(toDoList, homework, chores, health, fish);
-    prioritySelect.append(placeholderOption, option1, option2, option3, option4)
+    prioritySelect.append(placeholderOption, option1, option2, option3, option4);
     taskOptionDiv.append(dateInput, prioritySelect, projectList);
     form.append(taskNameInput, taskDescriptionInput, taskOptionDiv, taskSubmitDiv);
 
     taskNameInput.focus();
-}
+};
 
 function createAddTask() {
     let newTaskDiv = document.createElement('div');
@@ -90,13 +90,11 @@ function createAddTask() {
 
     function mouseenter() {
         newTaskIcon.src = addTaskWhite;
-        console.log('enter');
-    }
+    };
 
     function mouseleave() {
         newTaskIcon.src = addTaskRed;
-        console.log('leave');
-    }
+    };
 
     newTaskDiv.addEventListener('mouseenter', mouseenter);
     newTaskDiv.addEventListener('mouseleave', mouseleave);
@@ -106,18 +104,26 @@ function createAddTask() {
         newTaskDiv.removeEventListener('mouseenter', mouseenter);
         newTaskDiv.removeEventListener('mouseleave', mouseleave);
         newTaskDiv.removeEventListener('click', newTask);
-    }
+    };
 
     newTaskDiv.addEventListener('click', newTask);
 
     let addTask = document.createElement('div');
     addTask.id = 'addTask'; addTask.classList.add('addTask');
-    addTask.textContent = 'Add task'
+    addTask.textContent = 'Add task';
 
     newTaskIconDiv.append(newTaskIcon);
     newTaskDiv.append(newTaskIconDiv, addTask);
     
     return newTaskDiv;
+};
+
+function taskItemDOM() {
+    let taskItemDiv = document.createElement('div');
+    // add appropriate classes to it
+    taskItemDiv.classList.add('taskItemDiv');
+
+    return taskItemDiv;
 }
 
-export { populateForm, createAddTask }
+export { populateForm, createAddTask, taskItemDOM }

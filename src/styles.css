@@ -201,3 +201,61 @@ body {
 .cancel:hover {
     background-color: rgb(223, 223, 223);
 }
+
+.taskItemDiv {
+    height: 100px;
+    width: 100%;
+    border: 1px solid pink;
+    border-bottom: 1px solid grey;
+    margin-bottom: 1em;
+    display: flex;
+    align-items: flex-start;
+    gap: 1em;
+    padding: 0.5em;
+}
+
+.checkBoxWrapper {
+    height: 25px;
+    width: 25px;
+    background-color: rgb(255, 0, 0, 0.1);
+    border: 2px solid red;
+    border-radius: 50%;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.checkBox {
+    appearance: none;
+    -webkit-appearance: none;
+    content: url(icons/redCheck.svg);
+    height: 100%;
+    opacity: 0;
+    transition: opacity 0.25s;
+}
+
+.checkBox:hover {
+    opacity: 1;
+}
+
+@keyframes example {
+    from {height: 150%;}
+    to {height: 100%;}
+}
+
+.checkBox:checked {
+    background-color: red;
+    transition: 0.5s;
+    border-radius: 50%;
+    opacity: 1;
+    animation-name: example;
+    animation-duration: 0.5s;
+}
+
+.paraBox {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    height: 100%;
+}
