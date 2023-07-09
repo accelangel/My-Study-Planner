@@ -1,5 +1,5 @@
-import { newTaskOrder, cancelNewTask } from './index.js';
-import { createTask } from './taskLogic.js';
+import { newTaskOrder, cancelNewTask, taskCompleted } from './index.js';
+import { createTask, getElements } from './taskLogic.js';
 
 import addTaskRed from './icons/addTaskRed.svg'
 import addTaskWhite from './icons/addTaskWhite.svg'
@@ -26,22 +26,22 @@ function populateForm() {
     let prioritySelect = document.createElement('select');
     prioritySelect.id = 'prioritySelect'; prioritySelect.classList.add('prioritySelect');
 
-    let placeholderOption = document.createElement('option');
+    let placeholderOption = document.createElement('option'); placeholderOption.value = 4;
     placeholderOption.classList.add('priorityOption'); placeholderOption.disabled = true;
     placeholderOption.selected = true; placeholderOption.hidden = true; placeholderOption.textContent = '🏳️ Priority';
 
-    let option1 = document.createElement('option');
+    let option1 = document.createElement('option'); option1.value = 1;
     option1.classList.add('priorityOption'); option1.textContent = 'Priority 1';
-    let option2 = document.createElement('option');
+    let option2 = document.createElement('option'); option2.value = 2;
     option2.classList.add('priorityOption'); option2.textContent = 'Priority 2';
-    let option3 = document.createElement('option');
+    let option3 = document.createElement('option'); option3.value = 3;
     option3.classList.add('priorityOption'); option3.textContent = 'Priority 3';
-    let option4 = document.createElement('option');
+    let option4 = document.createElement('option'); option4.value = 4;
     option4.classList.add('priorityOption'); option4.textContent = 'Priority 4';
 
 
     let dateInput = document.createElement('input');
-    dateInput.id = 'dateInput'; dateInput.classList.add('dateInput'); 
+    dateInput.id = 'dateInput'; dateInput.classList.add('dateInput');
     dateInput.type = 'date'; dateInput.placeholder = 'Today';
 
 
@@ -114,16 +114,23 @@ function createAddTask() {
 
     newTaskIconDiv.append(newTaskIcon);
     newTaskDiv.append(newTaskIconDiv, addTask);
-    
+
     return newTaskDiv;
 };
 
-function taskItemDOM() {
+function taskItemDOM(task) {
+    let workspace = document.getElementById('workspace');
+
     let taskItemDiv = document.createElement('div');
-    // add appropriate classes to it
+    taskItemDiv.id = task.taskID;
+    workspace.append(taskItemDiv);
+
     taskItemDiv.classList.add('taskItemDiv');
 
+    document.getElementById(taskItemDiv.id).addEventListener('click', function () {
+        taskCompleted(task);
+    });
     return taskItemDiv;
-}
+};
 
 export { populateForm, createAddTask, taskItemDOM }

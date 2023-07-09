@@ -215,15 +215,33 @@ body {
 }
 
 .checkBoxWrapper {
-    height: 25px;
-    width: 25px;
-    background-color: rgb(255, 0, 0, 0.1);
-    border: 2px solid red;
+    height: 19px;
+    width: 19px;
     border-radius: 50%;
     cursor: pointer;
     display: flex;
     align-items: center;
     justify-content: center;
+}
+
+.checkBoxWrapper.priorityOne {
+    background-color: rgb(255, 0, 0, 0.1);
+    border: 2px solid red;
+}
+
+.checkBoxWrapper.priorityTwo {
+    background-color: rgb(255, 165, 0, 0.1);
+    border: 2px solid orange;
+}
+
+.checkBoxWrapper.priorityThree {
+    background-color: rgb(0, 0, 255, 0.1);
+    border: 2px solid blue;
+}
+
+.checkBoxWrapper.priorityFour {
+    background-color: rgb(128, 128, 128, 0.1);
+    border: 2px solid grey;
 }
 
 .checkBox {
@@ -233,19 +251,68 @@ body {
     height: 100%;
     opacity: 0;
     transition: opacity 0.25s;
+    border-radius: 50%;
 }
 
 .checkBox:hover {
     opacity: 1;
 }
 
-@keyframes example {
-    from {height: 150%;}
-    to {height: 100%;}
+.checkBox.priorityOne:hover {
+    background-color: rgb(255, 0, 0, 0.2);
 }
 
-.checkBox:checked {
+.checkBox.priorityTwo:hover {
+    background-color: rgb(255, 165, 0, 0.2);
+}
+
+.checkBox.priorityThree:hover {
+    background-color: rgb(0, 0, 255, 0.2);
+}
+
+.checkBox.priorityFour:hover {
+    background-color: rgb(128, 128, 128, 0.1);
+}
+
+@keyframes example {
+    from {
+        height: 175%;
+    }
+
+    to {
+        height: 100%;
+    }
+}
+
+.checkBox.priorityOne.checked {
     background-color: red;
+    transition: 0.5s;
+    border-radius: 50%;
+    opacity: 1;
+    animation-name: example;
+    animation-duration: 0.5s;
+}
+
+.checkBox.priorityTwo.checked {
+    background-color: orange;
+    transition: 0.5s;
+    border-radius: 50%;
+    opacity: 1;
+    animation-name: example;
+    animation-duration: 0.5s;
+}
+
+.checkBox.priorityThree.checked {
+    background-color: blue;
+    transition: 0.5s;
+    border-radius: 50%;
+    opacity: 1;
+    animation-name: example;
+    animation-duration: 0.5s;
+}
+
+.checkBox.priorityFour.checked {
+    background-color: grey;
     transition: 0.5s;
     border-radius: 50%;
     opacity: 1;
@@ -258,4 +325,12 @@ body {
     flex-direction: column;
     justify-content: space-between;
     height: 100%;
+}
+
+.paraName {
+    font-size: 15px;
+}
+
+.paraDescription {
+    font-size: 12px;
 }

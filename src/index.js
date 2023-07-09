@@ -2,6 +2,13 @@ import './styles.css'
 
 import { initialize } from './initialize.js'
 import { populateForm, createAddTask } from './domBuilds'
+import {
+    taskArray,
+    setTaskArray,
+    updateTaskArray,
+    updateTaskElementID,
+    storeOldTaskID
+} from './taskLogic';
 
 initialize();
 
@@ -28,4 +35,15 @@ function cancelNewTask() {
     workspace.append(newTaskDiv);
 };
 
-export { newTaskOrder, cancelNewTask }
+function taskCompleted(task) {
+    setTimeout(() => document.getElementById(task.taskID).remove(), 200);
+    setTaskArray(taskArray.filter((index) => index.name !== task.name));
+    storeOldTaskID();
+    updateTaskArray();
+    updateTaskElementID();
+};
+
+export { newTaskOrder, cancelNewTask, taskCompleted }
+
+console.clear();
+
