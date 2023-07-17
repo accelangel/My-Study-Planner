@@ -67,6 +67,8 @@ body {
     display: flex;
     gap: 0.7em;
     user-select: none;
+    margin-top: 0.25em;
+    margin-bottom: 0.8em;
 }
 
 .newTaskIconDiv {
@@ -88,10 +90,6 @@ body {
 
 .newTaskDiv:hover .addTask {
     color: #db4c3d;
-}
-
-.newTaskDiv:hover {
-    cursor: pointer;
 }
 
 .newTaskForm {
@@ -150,6 +148,11 @@ body {
     box-shadow: 0 0 10px 100px yellow inset;
 }
 
+.priorityOption.greyFlag {
+    content: url(icons/prioflag.svg);
+    color: green;
+}
+
 .dateInput {
     border-radius: 5px;
     border: 1px solid rgb(128, 128, 128, 0.4);
@@ -203,15 +206,14 @@ body {
 }
 
 .taskItemDiv {
-    height: 100px;
+    height: fit-content;
     width: 100%;
-    border: 1px solid pink;
-    border-bottom: 1px solid grey;
-    margin-bottom: 1em;
+    border-right: 1px solid grey;
+    border-bottom: 1px solid rgb(128, 128, 128, 0.3);
     display: flex;
     align-items: flex-start;
-    gap: 1em;
-    padding: 0.5em;
+    gap: 0.5em;
+    padding: 0.5em 0;
 }
 
 .checkBoxWrapper {
@@ -247,11 +249,26 @@ body {
 .checkBox {
     appearance: none;
     -webkit-appearance: none;
-    content: url(icons/redCheck.svg);
     height: 100%;
     opacity: 0;
     transition: opacity 0.25s;
     border-radius: 50%;
+}
+
+.checkBox.priorityOne {
+    content: url(icons/redCheck.svg);
+}
+
+.checkBox.priorityTwo {
+    content: url(icons/orangeCheck.svg);
+}
+
+.checkBox.priorityThree {
+    content: url(icons/blueCheck.svg);
+}
+
+.checkBox.priorityFour {
+    content: url(icons/blackCheck.svg);
 }
 
 .checkBox:hover {
@@ -284,40 +301,28 @@ body {
     }
 }
 
-.checkBox.priorityOne.checked {
+.checkBox:checked {
+    transition: 0.5s;
+    border-radius: 50%;
+    opacity: 1;
+    animation-name: example;
+    animation-duration: 0.5s;
+}
+
+.checkBox.priorityOne:checked {
     background-color: red;
-    transition: 0.5s;
-    border-radius: 50%;
-    opacity: 1;
-    animation-name: example;
-    animation-duration: 0.5s;
 }
 
-.checkBox.priorityTwo.checked {
+.checkBox.priorityTwo:checked {
     background-color: orange;
-    transition: 0.5s;
-    border-radius: 50%;
-    opacity: 1;
-    animation-name: example;
-    animation-duration: 0.5s;
 }
 
-.checkBox.priorityThree.checked {
+.checkBox.priorityThree:checked {
     background-color: blue;
-    transition: 0.5s;
-    border-radius: 50%;
-    opacity: 1;
-    animation-name: example;
-    animation-duration: 0.5s;
 }
 
-.checkBox.priorityFour.checked {
+.checkBox.priorityFour:checked {
     background-color: grey;
-    transition: 0.5s;
-    border-radius: 50%;
-    opacity: 1;
-    animation-name: example;
-    animation-duration: 0.5s;
 }
 
 .paraBox {
@@ -333,4 +338,34 @@ body {
 
 .paraDescription {
     font-size: 12px;
+}
+
+.paraDate {
+    font-size: 12px;
+}
+
+.unClickable {
+    pointer-events: none;
+    opacity: 50%;
+}
+
+.cancel,
+.submitTask:hover {
+    cursor: pointer;
+}
+
+.projectWrapper {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    height: fit-content;
+    margin-bottom: 1.5em;
+}
+
+.projectHeading {
+    border-bottom: 1px solid rgb(128, 128, 128, 0.3);
+    width: 100%;
+    height: fit-content;
+    padding: 0.25em 0;
+    font-weight: bold;
 }

@@ -1,5 +1,11 @@
 import { newTaskOrder, cancelNewTask, taskCompleted } from './index.js';
-import { createTask, getElements } from './taskLogic.js';
+import {
+    createTask,
+    getElements,
+    priority,
+    taskNameValidation,
+    projectArray,
+} from './taskLogic.js';
 
 import addTaskRed from './icons/addTaskRed.svg'
 import addTaskWhite from './icons/addTaskWhite.svg'
@@ -28,16 +34,25 @@ function populateForm() {
 
     let placeholderOption = document.createElement('option'); placeholderOption.value = 4;
     placeholderOption.classList.add('priorityOption'); placeholderOption.disabled = true;
-    placeholderOption.selected = true; placeholderOption.hidden = true; placeholderOption.textContent = '🏳️ Priority';
+    placeholderOption.selected = true; placeholderOption.hidden = true;
+    placeholderOption.textContent = 'Priority'; placeholderOption.classList.add('greyFlag');
 
-    let option1 = document.createElement('option'); option1.value = 1;
-    option1.classList.add('priorityOption'); option1.textContent = 'Priority 1';
-    let option2 = document.createElement('option'); option2.value = 2;
-    option2.classList.add('priorityOption'); option2.textContent = 'Priority 2';
-    let option3 = document.createElement('option'); option3.value = 3;
-    option3.classList.add('priorityOption'); option3.textContent = 'Priority 3';
-    let option4 = document.createElement('option'); option4.value = 4;
-    option4.classList.add('priorityOption'); option4.textContent = 'Priority 4';
+    // priority options
+    let option1 = document.createElement('option');
+    option1.classList.add('priorityOption'); option1.value = 1;
+    option1.textContent = 'Priority 1'; option1.classList.add('redFlag');
+
+    let option2 = document.createElement('option');
+    option2.classList.add('priorityOption'); option2.value = 2;
+    option2.textContent = 'Priority 2'; option2.classList.add('orangeFlag');
+
+    let option3 = document.createElement('option');
+    option3.classList.add('priorityOption'); option3.value = 3;
+    option3.textContent = 'Priority 3'; option3.classList.add('blueFlag');
+
+    let option4 = document.createElement('option');
+    option4.classList.add('priorityOption'); option4.value = 4;
+    option4.textContent = 'Priority 4'; option4.classList.add('greyFlag');
 
 
     let dateInput = document.createElement('input');
@@ -47,21 +62,26 @@ function populateForm() {
 
     let projectList = document.createElement('select');
     projectList.id = 'projectList'; projectList.classList.add('projectList');
-    let toDoList = document.createElement('option'); toDoList.selected = true; toDoList.textContent = 'Daily To Do';
-    //temp for testing
+    let daily = document.createElement('option');
+    daily.selected = true; daily.textContent = 'Daily';
+
     let homework = document.createElement('option'); homework.textContent = 'Homework';
-    let chores = document.createElement('option'); chores.textContent = 'Chores';
-    let health = document.createElement('option'); health.textContent = 'Exercise';
-    let fish = document.createElement('option'); fish.textContent = 'Feed fish';
+    let exercise = document.createElement('option'); exercise.textContent = 'Exercise';
+
+    daily.value = 'daily'; homework.value = 'homework'; exercise.value = 'exercise';
 
 
     let taskSubmitDiv = document.createElement('div');
     taskSubmitDiv.classList.add('taskSubmitDiv');
 
     let submitTask = document.createElement('button');
-    submitTask.id = 'submitTask'; submitTask.classList.add('submitTask'); submitTask.textContent = 'Add task';
+    submitTask.id = 'submitTask'; submitTask.classList.add('submitTask');
+    submitTask.classList.add('unClickable'); submitTask.textContent = 'Add task';
 
     submitTask.addEventListener('click', createTask);
+    taskNameInput.addEventListener('input', (event) => {
+        taskNameValidation(event.target.value);
+    });
 
     let cancel = document.createElement('button');
     cancel.id = 'cancel'; cancel.classList.add('cancel'); cancel.textContent = 'cancel';
@@ -69,7 +89,7 @@ function populateForm() {
     cancel.addEventListener('click', cancelNewTask);
 
     taskSubmitDiv.append(cancel, submitTask);
-    projectList.append(toDoList, homework, chores, health, fish);
+    projectList.append(daily, homework, exercise);
     prioritySelect.append(placeholderOption, option1, option2, option3, option4);
     taskOptionDiv.append(dateInput, prioritySelect, projectList);
     form.append(taskNameInput, taskDescriptionInput, taskOptionDiv, taskSubmitDiv);
@@ -127,10 +147,84 @@ function taskItemDOM(task) {
 
     taskItemDiv.classList.add('taskItemDiv');
 
-    document.getElementById(taskItemDiv.id).addEventListener('click', function () {
-        taskCompleted(task);
-    });
     return taskItemDiv;
 };
 
-export { populateForm, createAddTask, taskItemDOM }
+function taskContent(task) {
+    let checkBoxWrapper = document.createElement('div');
+    checkBoxWrapper.classList.add('checkBoxWrapper');
+    checkBoxWrapper.classList.add(priority(task)());
+
+    let checkBox = document.createElement('input');
+    checkBox.type = 'checkbox'; checkBox.id = 'checkbox';
+    checkBox.classList.add('checkBox'); checkBox.classList.add(task.taskID);
+    checkBox.classList.add(priority(task)());
+
+    let paraBox = document.createElement('div');
+    paraBox.classList.add('paraBox');
+
+    let paraName = document.createElement('p'); paraName.classList.add('paraName');
+    paraName.textContent = task.name;
+
+    paraBox.append(paraName);
+
+    if (task.description) {
+        let paraDescription = document.createElement('p');
+        paraDescription.classList.add('paraDescription');
+        paraDescription.textContent = task.description;
+        paraBox.append(paraDescription);
+    };
+
+    if (task.date) {
+        let paraDate = document.createElement('p');
+        paraDate.classList.add('paraDate');
+        paraDate.textContent = task.date;
+        paraBox.append(paraDate);
+    };
+
+    checkBoxWrapper.append(checkBox);
+    let taskDiv = taskItemDOM(task);
+    taskDiv.append(checkBoxWrapper, paraBox);
+
+    document.querySelector(`.${task.taskID}`).addEventListener('click', function () {
+        taskCompleted(task);
+    });
+
+    return taskDiv
+};
+
+function populateProjectDOM() {
+    let projectElements = [];
+    for (let project of projectArray) {
+        let projectWrapper = document.createElement('div');
+        projectWrapper.classList.add('projectWrapper');
+        projectWrapper.id = `${project.toLowerCase()}`;
+
+        let projectHeading = document.createElement('p');
+        projectHeading.classList.add('projectHeading');
+        projectHeading.textContent = project;
+
+        projectWrapper.append(projectHeading);
+        projectElements.push(projectWrapper);
+    };
+
+    let workspace = document.getElementById('workspace');
+
+    for (let element of projectElements) {
+        workspace.append(element);
+    };
+};
+
+function pinToProject(task, taskDiv) {
+    let targetProject = document.getElementById(task.project);
+    targetProject.append(taskDiv);
+};
+
+export {
+    populateForm,
+    createAddTask,
+    taskItemDOM,
+    taskContent,
+    pinToProject,
+    populateProjectDOM
+}

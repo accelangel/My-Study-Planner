@@ -1,13 +1,14 @@
 import './styles.css'
 
 import { initialize } from './initialize.js'
-import { populateForm, createAddTask } from './domBuilds'
+import { populateForm, createAddTask, populateProjectDOM } from './domBuilds'
 import {
     taskArray,
     setTaskArray,
     updateTaskArray,
     updateTaskElementID,
-    storeOldTaskID
+    storeOldTaskID,
+    workspaceProjectRemove
 } from './taskLogic';
 
 initialize();
@@ -41,9 +42,13 @@ function taskCompleted(task) {
     storeOldTaskID();
     updateTaskArray();
     updateTaskElementID();
+
+    workspaceProjectRemove(task);
 };
 
 export { newTaskOrder, cancelNewTask, taskCompleted }
+
+populateProjectDOM();
 
 console.clear();
 
