@@ -5,10 +5,12 @@ import {
     priority,
     taskNameValidation,
     projectArray,
+    switchProjectView,
 } from './taskLogic.js';
 
 import addTaskRed from './icons/addTaskRed.svg'
 import addTaskWhite from './icons/addTaskWhite.svg'
+import dot2 from './icons/dot2.svg'
 
 function populateForm() {
     let form = document.getElementById('newTaskForm');
@@ -193,7 +195,7 @@ function taskContent(task) {
     return taskDiv
 };
 
-function populateProjectDOM() {
+function populateProjectDOM(projectArray) {
     let projectElements = [];
     for (let project of projectArray) {
         let projectWrapper = document.createElement('div');
@@ -209,15 +211,57 @@ function populateProjectDOM() {
     };
 
     let workspace = document.getElementById('workspace');
+    
+    let projectsWrapper = document.createElement('div');
+    projectsWrapper.classList.add('projectsWrapper');
 
     for (let element of projectElements) {
-        workspace.append(element);
+        projectsWrapper.append(element);
     };
+
+    workspace.append(projectsWrapper);
 };
 
 function pinToProject(task, taskDiv) {
     let targetProject = document.getElementById(task.project);
     targetProject.append(taskDiv);
+};
+
+function populateSidebarProjects(projectsArray) {
+    let projectBar = document.getElementById('sidebarProjectsBar');
+    let array = [];
+    for (let proj of projectsArray) {
+        let projectDiv = document.createElement('div');
+        projectDiv.classList.add('projectDiv');
+        let projectDot = document.createElement('img');
+        projectDot.src = dot2;
+        let projectName = document.createElement('p');
+        projectName.classList.add('sidebarProjectTitle');
+        projectName.textContent = proj;
+        projectDiv.append(projectDot, projectName);
+        array.push(projectDiv);
+
+        //eventListener for each projectDiv
+        projectDiv.addEventListener('click', () => {
+            switchProjectView(proj)
+        });
+
+        for (let elements of array) {
+            projectBar.append(elements);
+        };
+    };
+};
+
+function projectForm() {
+    console.log('test');
+    let projectFormWrapper = document.createElement('div');
+    let projectNameInput = document.createElement('input');
+    projectNameInput.type = 'text'; projectNameInput.id = 'projectNameInput';
+    projectNameInput.classList.add('projectNameInput'); 
+
+
+    let targetElement = document.querySelector('sidebarProjectHeader');
+    projectFormWrapper.append(projectNameInput);
 };
 
 export {
@@ -226,5 +270,7 @@ export {
     taskItemDOM,
     taskContent,
     pinToProject,
-    populateProjectDOM
+    populateProjectDOM,
+    populateSidebarProjects,
+    projectForm
 }

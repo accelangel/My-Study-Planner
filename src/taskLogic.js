@@ -3,6 +3,8 @@ import {
     taskItemDOM,
     taskContent,
     pinToProject,
+    populateSidebarProjects,
+    populateProjectDOM
 } from './domBuilds'
 
 const getElements = function () {
@@ -118,8 +120,7 @@ function pinTask(task) {
     let elements = getElements();
     elements.newTaskDiv.remove();
 
-    let taskDiv = taskContent(task);
-    pinToProject(task, taskDiv);
+    pinToProject(task, taskContent(task));
 
     newTaskButton(elements.workspace);
 };
@@ -143,6 +144,36 @@ function workspaceProjectRemove(task) {
         });
 };
 
+function emptyDiv(div) {
+    while (div.firstChild) {
+        div.removeChild(div.firstChild)
+    };
+};
+
+function switchProjectView(projectTab) {
+    document.querySelector('.projectsWrapper').remove();
+    populateProjectDOM([projectTab]);
+    let array = workspaceProjects[projectTab.toLowerCase()];
+    for (let index of array) {
+        pinToProject(index, taskContent(index));
+    };
+};
+
+function homeView() {
+    document.querySelector('.projectsWrapper').remove();
+    populateProjectDOM(projectArray);
+    for (let array in workspaceProjects) {
+        for (let task of workspaceProjects[array]) {
+            pinToProject(task, taskContent(task));
+        };
+    };
+};
+
+function addNewProject(projectName) {
+    console.log(projectName);
+    
+};
+
 export {
     createTask,
     getElements,
@@ -155,4 +186,8 @@ export {
     taskNameValidation,
     workspaceProjectRemove,
     projectArray,
+    switchProjectView,
+    emptyDiv,
+    homeView,
+    addNewProject
 }
